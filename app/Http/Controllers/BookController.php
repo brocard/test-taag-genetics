@@ -98,6 +98,8 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        return Redirect::back()->with('success', 'Libro eliminado.');
     }
 }

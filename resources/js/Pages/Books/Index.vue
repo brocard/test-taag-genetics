@@ -1,10 +1,17 @@
 <script setup>
 import BlankLayout from '@/Layouts/Blank.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { Inertia } from '@inertiajs/inertia'
 
 defineProps({
   books: [Object, Array],
 });
+
+const destroy = (item) =>  {
+  if (confirm('Are you sure you want to delete this book?')) {
+    Inertia.delete(`/books/${item.id}`)
+  }
+}
 
 </script>
 
@@ -21,43 +28,57 @@ defineProps({
 
     <div class="bg-white rounded-sm shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">
-        <tr class="text-left font-bold text-gray-500">
-          <th class="pb-4 pt-6 px-6">Título</th>
-          <th class="pb-4 pt-6 px-6">Autor</th>
-          <th class="pb-4 pt-6 px-6">Edición</th>
-          <th class="pb-4 pt-6 px-6" colspan="2">Datos de publicación</th>
-        </tr>
-        <tr
-          v-for="item in books.data"
-          :key="item.id"
-          class="hover:bg-gray-100 focus-within:bg-gray-100 text-sm font-normal text-gray-800"
-        >
-          <td class="border-t">
-            <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/books/${item.id}/edit`">
-              {{ item.title }}
-            </Link>
-          </td>
-          <td class="border-t">
-            <Link class="flex items-center px-6 py-4" :href="`/books/${item.id}/edit`" tabindex="-1">
-              <div v-if="item.author">
-                {{ item.author.name }}
-              </div>
-            </Link>
-          </td>
-          <td class="border-t">
-            <Link class="flex items-center px-6 py-4" :href="`/books/${item.id}/edit`" tabindex="-1">
-              {{ item.edition }}
-            </Link>
-          </td>
-          <td class="border-t">
-            <Link class="flex items-center px-6 py-4" :href="`/books/${item.id}/edit`" tabindex="-1">
-              {{ item.publication_data }}
-            </Link>
-          </td>
-        </tr>
-        <tr v-if="books.data.length === 0">
-          <td class="px-6 py-4 border-t" colspan="4">No contacts found.</td>
-        </tr>
+        <thead class="text-left font-bold text-gray-500">
+          <tr>
+            <th class="pb-4 pt-6 px-6">Título</th>
+            <th class="pb-4 pt-6 px-6">Autor</th>
+            <th class="pb-4 pt-6 px-6">Edición</th>
+            <th class="pb-4 pt-6 px-6" colspan="2">Datos de publicación</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="item in books.data"
+            :key="item.id"
+            class=" divide-y divide-yellow-400 hover:bg-gray-100 focus-within:bg-gray-100 text-sm font-normal text-gray-800"
+          >
+            <td class="border-t">
+              <Link class="flex items-center px-6 py-4 focus:text-indigo-500" :href="`/books/${item.id}/edit`">
+                {{ item.title }}
+              </Link>
+            </td>
+            <td class="border-t">
+              <Link class="flex items-center px-6 py-4" :href="`/books/${item.id}/edit`" tabindex="-1">
+                <div v-if="item.author">
+                  {{ item.author.name }}
+                </div>
+              </Link>
+            </td>
+            <td class="border-t">
+              <Link class="flex items-center px-6 py-4" :href="`/books/${item.id}/edit`" tabindex="-1">
+                {{ item.edition }}
+              </Link>
+            </td>
+            <td colspan="2" class="border-t">
+              <Link class="flex items-center px-6 py-4" :href="`/books/${item.id}/edit`" tabindex="-1">
+                {{ item.publication_data }}
+              </Link>
+            </td>
+            <td>
+              <button
+                v-if="!item.deleted_at"
+                type="button"
+                class="text-red-600 hover:underline"
+                tabindex="-1"
+                @click="destroy(item)"
+              >Eliminar Libro</button>
+            </td>
+          </tr>
+          <tr v-if="books.data.length === 0">
+            <td class="px-6 py-4 border-t" colspan="4">No se encontraro libros.</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </BlankLayout>
