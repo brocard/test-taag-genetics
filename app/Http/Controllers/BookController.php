@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Models\Author;
 use App\Models\Book;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class BookController extends Controller
@@ -26,18 +28,30 @@ class BookController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Books/Create');
+        return Inertia::render('Books/Create', [
+            'authors' => Author::orderBy('name')
+                ->get()
+                ->map
+                ->only(['id', 'name']),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreBookRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
+     *
      */
     public function store(StoreBookRequest $request)
     {
-        //
+        Book::create([
+            'title' => $request->title,
+            'author_id' => $request->author_id,
+        ]);
+
+        return Redirect::route('books.index')
+            ->with('success', 'Libro Creado.');
     }
 
     /**

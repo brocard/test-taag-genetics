@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->unsignedBigInteger('author_id');
-            $table->string('edition');
-            $table->string('publication_data');
-            $table->string('content_type');
-            $table->string('restrictions');
-            $table->string('materia');
-            $table->string('provider');
+            $table->string('edition')->nullable();
+            $table->string('publication_data')->nullable();
+            $table->string('content_type')->nullable();
+            $table->string('restrictions')->nullable();
+            $table->string('materia')->nullable();
+            $table->string('provider')->nullable();
             $table->timestamps();
 
             $table->foreign('author_id')->references('id')->on('authors');

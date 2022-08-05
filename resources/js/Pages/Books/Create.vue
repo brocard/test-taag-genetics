@@ -1,21 +1,26 @@
 <script setup>
 import BlankLayout from '@/Layouts/Blank.vue';
 import BaseInput from '@/Components/Input.vue';
+import BaseSelect from '@/Components/SelectInput.vue'
 import BaseLabel from '@/Components/Label.vue';
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
 import BreezeButton from '@/Components/Button.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 
+defineProps({
+  authors: Array,
+});
+
 const form = useForm({
-    email: '',
-    password: '',
-    remember: false,
+  title: '',
+  author_id: '',
+  edition: null,
+  publication_data: null,
+  content_type: null,
+  restrictions: null,
 });
 
 const submit = () => {
-  form.post(route('login'), {
-    onFinish: () => form.reset('password'),
-  });
+  form.post(route('books.store'),);
 };
 
 </script>
@@ -28,25 +33,56 @@ const submit = () => {
       <form @submit.prevent="submit">
         <div class="flex flex-col space-y-2.5">
           <div>
-            <BaseLabel for="email" value="Autor" />
-            <BaseInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
+            <BaseLabel for="title" value="Título" />
+            <BaseInput
+              id="title" type="text"
+              class="mt-1 block w-full"
+              v-model="form.title"
+              required autofocus
+              autocomplete="title"
+            />
           </div>
 
           <div>
-            <BaseLabel for="email" value="Título" />
-            <BaseInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
+            <BaseLabel for="author_id" value="Autor" />
+            <BaseSelect
+              v-model="form.author_id"
+              :error="form.errors.author_id" class="mt-2"
+            >
+              <option :value="null" />
+              <option
+                v-for="item in authors"
+                :key="item.id"
+                :value="item.id"
+              >{{ item.name }}</option>
+            </BaseSelect>
           </div>
 
           <div>
-            <BaseLabel for="email" value="Edición" />
-            <BaseInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
+            <BaseLabel for="edition" value="Edición" />
+            <BaseInput id="edition" type="text" class="mt-1 block w-full" v-model="form.edition" />
+          </div>
+
+          <div>
+            <BaseLabel for="publication_data" value="Datos de publicación" />
+            <BaseInput id="publication_data" type="text" class="mt-1 block w-full" v-model="form.publication_data" />
+          </div>
+
+          <div>
+            <BaseLabel for="content_type" value="Tipo de Contenido" />
+            <BaseInput id="content_type" type="text" class="mt-1 block w-full" v-model="form.content_type" />
+          </div>
+
+          <div>
+            <BaseLabel for="restrictions" value="Restricciones" />
+            <BaseInput id="restrictions" type="text" class="mt-1 block w-full" v-model="form.restrictions" />
           </div>
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Crear
-            </BreezeButton>
+          <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            Crear
+          </BreezeButton>
         </div>
       </form>
     </div>
