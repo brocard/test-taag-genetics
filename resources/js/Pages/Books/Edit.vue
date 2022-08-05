@@ -24,9 +24,11 @@ export default {
       ...props.book,
       restrictions: null,
     });
+
     const submit = () => {
       form.put(`/books/${form.id}`);
     };
+
     return {
       form,
       submit,

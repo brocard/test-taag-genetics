@@ -50,6 +50,7 @@ class BookController extends Controller
         Book::create([
             'title' => $request->title,
             'author_id' => $request->author_id,
+            'edition' => $request->edition,
         ]);
 
         return Redirect::route('books.index')
@@ -68,24 +69,17 @@ class BookController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateBookRequest  $request
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateBookRequest $request, Book $book)
     {
-        //
+        $book->update([
+            'title' => $request->title,
+            'author_id' => $request->author_id,
+            'edition' => $request->edition,
+        ]);
+
+        return Redirect::route('books.index')->with('success', 'Libro Actualizado.');;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Book $book)
     {
         $book->delete();

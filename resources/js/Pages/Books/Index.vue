@@ -71,7 +71,7 @@ const destroy = (item) =>  {
                 type="button"
                 class="text-red-600 hover:underline"
                 tabindex="-1"
-                @click="destroy(item)"
+                @click.stop="destroy(item)"
               >Eliminar Libro</button>
             </td>
           </tr>
