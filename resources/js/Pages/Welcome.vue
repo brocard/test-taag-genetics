@@ -30,8 +30,10 @@ defineProps({
         </div>
 
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 text-center">
-            <div>
-                <Link href="/books/create" class="text-sm text-gray-700 underline">
+            <div class="py-4 mb-6">
+                <Link
+                    href="/books/create"
+                    class="text-lg text-gray-700 underline px-3 py-1 bg-amber-200 rounded no-underline font-semibold">
                     Register New book
                 </Link>
             </div>

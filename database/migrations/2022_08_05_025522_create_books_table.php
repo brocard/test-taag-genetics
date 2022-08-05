@@ -15,7 +15,17 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->unsignedBigInteger('author_id');
+            $table->string('edition');
+            $table->string('publication_data');
+            $table->string('content_type');
+            $table->string('restrictions');
+            $table->string('materia');
+            $table->string('provider');
             $table->timestamps();
+
+            $table->foreign('author_id')->references('id')->on('authors');
         });
     }
 
