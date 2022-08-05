@@ -13,7 +13,7 @@ class UpdateBookRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,18 @@ class UpdateBookRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|unique:books',
+            'author_id' => 'required|exists:authors,id',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'El campo título es obligatorio.',
+            'title.unique' => 'El título ya existe.',
+            'author_id.required' => 'El campo autor es obligatorio.',
+            'author_id.exists' => 'El autor no existe.',
         ];
     }
 }

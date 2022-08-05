@@ -1,4 +1,4 @@
-<script setup>
+<script>
 import BlankLayout from '@/Layouts/Blank.vue';
 import BaseInput from '@/Components/Input.vue';
 import BaseSelect from '@/Components/SelectInput.vue'
@@ -6,28 +6,38 @@ import BaseLabel from '@/Components/Label.vue';
 import BreezeButton from '@/Components/Button.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 
-defineProps({
-  book: Object,
-});
+export default {
+  components: {
+    BlankLayout,
+    BaseInput,
+    BaseSelect,
+    BaseLabel,
+    BreezeButton,
+    Head, Link
+  },
 
-const form = useForm({
-  title: '',
-  author_id: '',
-  edition: null,
-  publication_data: null,
-  content_type: null,
-  restrictions: null,
-});
-
-const submit = () => {
-  form.put(`/books/${book.id}`);
-};
-
+  props: {
+    book: Object,
+  },
+  setup(props) {
+    const form = useForm({
+      ...props.book,
+      restrictions: null,
+    });
+    const submit = () => {
+      form.put(`/books/${form.id}`);
+    };
+    return {
+      form,
+      submit,
+    };
+  },
+}
 </script>
 
 <template>
   <BlankLayout>
-    <Head title="Crear Libro" />
+    <Head :title="`Editar libro ${book.title}`" />
 
     <div class="text-center pb-6">
       <Link href="/books" class="text-blue-500 animate-bounce font-semibold focus:outline-none hover:text-blue-600">
@@ -86,8 +96,8 @@ const submit = () => {
         </div>
 
         <div class="flex items-center justify-end mt-4">
-          <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-            Update
+          <BreezeButton class="ml-4 bg-blue-500" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            Actualizar
           </BreezeButton>
         </div>
       </form>
