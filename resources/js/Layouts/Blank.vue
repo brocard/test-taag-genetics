@@ -11,7 +11,7 @@ import { Link } from '@inertiajs/inertia-vue3';
             </Link>
         </div>
 
-        <div class="w-full sm:max-w-4xl mt-2 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div class="w-full sm:max-w-4xl mt-2 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-sm">
             <slot />
         </div>
     </div>
