@@ -7,7 +7,7 @@ import BreezeButton from '@/Components/Button.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 
 defineProps({
-  authors: Array,
+  book: Object,
 });
 
 const form = useForm({
@@ -20,7 +20,7 @@ const form = useForm({
 });
 
 const submit = () => {
-  form.post(route('books.store'),);
+  form.put(`/books/${book.id}`);
 };
 
 </script>
@@ -87,7 +87,7 @@ const submit = () => {
 
         <div class="flex items-center justify-end mt-4">
           <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-            Crear
+            Update
           </BreezeButton>
         </div>
       </form>

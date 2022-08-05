@@ -56,26 +56,16 @@ class BookController extends Controller
             ->with('success', 'Libro Creado.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function show(Book $book)
     {
-        //
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Book $book)
     {
-        //
+        return Inertia::render('Books/Edit', [
+            'book' => $book,
+        ]);
     }
 
     /**
